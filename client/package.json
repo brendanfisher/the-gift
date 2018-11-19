@@ -4,8 +4,17 @@
   "description": "Web client for The Gift",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "http": "0.0.0",
+    "next": "^7.0.2",
+    "next-routes": "^1.4.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  }
 }
