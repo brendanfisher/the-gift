@@ -1,4 +1,5 @@
 import React from "react";
+import '../styles.scss';
 
 export default class Gift extends React.Component {
     static async getInitialProps({ query }) {
