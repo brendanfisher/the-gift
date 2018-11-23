@@ -8,7 +8,7 @@ export default class Gift extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className='container'>
                 The gift!
             </div>
         );

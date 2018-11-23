@@ -1,3 +1,49 @@
+@import "./node_modules/bootstrap/scss/bootstrap.scss";
+
+@mixin centered {
+    float: none;
+    margin: 0 auto;
+    text-align: center;
+}
+
 body {
     background-color: #f7fada;
+}
+
+.container {
+    margin-top: 64px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    @include centered;
+}
+
+.dropzone {
+    @include centered;
+    margin-top: 20px;
+}
+
+.image-preview {
+    width: 180px;
+    height: 180px;
+    margin: 9px;
+    overflow: hidden;
+}
+
+.previewed-image {
+    position: relative;
+}
+
+button {
+    @include centered;
+    margin-top: 20px;
+}
+
+p {
+    @include centered;
+    margin: 10px;
+}
+
+.right-align {
+    float: right;
 }
