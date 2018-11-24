@@ -14,13 +14,23 @@ export async function getGift(id, owner) {
     return {
         success: true,
         videoURL: null,
-        owner: owner === '1234',
+        isOwner: owner === '1234',
         title: 'Happy Celebrations!'
     }
 }
 
 export async function updateTitle(id, owner, newName) {
+    if (newName.length === 0 || newName.length > 24) {
+        return {
+            success: false
+        };
+    }
+
     await timeout(500);
+
+    return {
+        success: true
+    };
 }
 
 //TODO: remove
