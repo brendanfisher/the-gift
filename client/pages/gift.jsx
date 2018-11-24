@@ -5,6 +5,7 @@ import Error from './_error';
 import Copy from '../components/copiableText';
 import Edit from '../components/editableText';
 import '../styles.scss';
+import Footer from '../components/footer';
 
 export default class Gift extends React.Component {
     static async getInitialProps({ res, query }) {
@@ -31,30 +32,33 @@ export default class Gift extends React.Component {
         }
 
         return (
-            <div className='container'>
-                <div className='row'>
-                    {this.props.isOwner ? <Edit onUpdate={this.updateTitle.bind(this)}>{this.props.title}</Edit> : <h1>{this.props.title}</h1>}
-                </div>
-                <div className='row'>
+            <>
+                <div className='container'>
+                    <div className='row'>
+                        {this.props.isOwner ? <Edit onUpdate={this.updateTitle.bind(this)}>{this.props.title}</Edit> : <h1>{this.props.title}</h1>}
+                    </div>
+                    <div className='row'>
+                        {
+                            this.props.videoURL ?
+                                <video width='640' height='360' controls>
+                                    <source src={this.props.videoURL} />
+                                </video> :
+                                <div className='videoPlaceholder'>
+                                    <h5>Your Gift is still processing. Please come back later.</h5>
+                                </div>
+                        }
+                    </div>
                     {
-                        this.props.videoURL ?
-                            <video width='640' height='360' controls>
-                                <source src={this.props.videoURL} />
-                            </video> :
-                            <div className='videoPlaceholder'>
-                                <h5>Your Gift is still processing. Please come back later.</h5>
+                        this.props.isOwner &&
+                        <div className='row'>
+                            <div className='col'>
+                                <p>Share this Gift with your loved ones using this URL: <Copy>thegift.com/gift/{this.props.id}</Copy></p>
                             </div>
+                        </div>
                     }
                 </div>
-                {
-                    this.props.isOwner &&
-                    <div className='row'>
-                        <div className='col'>
-                            <p>Share this Gift with your loved ones using this URL: <Copy>thegift.com/gift/{this.props.id}</Copy></p>
-                        </div>
-                    </div>
-                }
-            </div>
+                <Footer />
+            </>
         );
     }
 }

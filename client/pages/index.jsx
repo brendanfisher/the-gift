@@ -3,6 +3,7 @@ import Dropzone from 'react-dropzone';
 import ImageEditor from '../components/imageEditor';
 import Router from 'next/router';
 import '../styles.scss';
+import Footer from '../components/footer';
 
 export default class Index extends React.Component {
     constructor(props) {
@@ -73,66 +74,69 @@ export default class Index extends React.Component {
 
     render() {
         return (
-            <div className='container'>
-                <div className='row'>
-                    <div className='col'>
-                        <h1>The Gift</h1>
-                        <h6>Send your loved one The Gift today.</h6>
+            <>
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col'>
+                            <h1>The Gift</h1>
+                            <h6>Send your loved one The Gift today.</h6>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='dropzone'>
+                            <Dropzone
+                                accept='image/jpeg, image/png'
+                                multiple={false}
+                                onDrop={this.onDrop.bind(this)}
+                                disableClick={this.state.photo !== null}
+                            >
+                                {
+                                    this.state.photo === null
+                                        ? <p>Upload or drag an image of your face here.</p>
+                                        : <ImageEditor
+                                            photo={this.state.photo}
+                                            disabled={this.disabled.bind(this)}
+                                            onInteract={this.clearCropMessage.bind(this)}
+                                            onReplacePhoto={this.onDrop.bind(this)} />
+                                }
+                            </Dropzone>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        {
+                            this.state.photo !== null &&
+                            <>
+                                <div className='col col-sm-6'>
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary right-align"
+                                        disabled={this.state.submitting}
+                                        onClick={this.createGift.bind(this)}>
+                                        Create
+                                    </button>
+                                </div>
+                                <div className='col col-sm-6'>
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger"
+                                        disabled={this.state.submitting}
+                                        onClick={this.clearImage.bind(this)}>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </>
+                        }
+                    </div>
+                    <div className='row'>
+                        <div className='col'>
+                            {this.state.showCropMessage && <p>Drag and scroll your image to crop.</p>}
+                            {this.state.submitting && <p>Uploading...</p>}
+                            {this.state.uploadFailed && <p className='red'>Upload failed.</p>}
+                        </div>
                     </div>
                 </div>
-                <div className='row'>
-                    <div className='dropzone'>
-                        <Dropzone
-                            accept='image/jpeg, image/png'
-                            multiple={false}
-                            onDrop={this.onDrop.bind(this)}
-                            disableClick={this.state.photo !== null}
-                        >
-                            {
-                                this.state.photo === null
-                                    ? <p>Upload or drag an image of your face here.</p>
-                                    : <ImageEditor
-                                        photo={this.state.photo}
-                                        disabled={this.disabled.bind(this)}
-                                        onInteract={this.clearCropMessage.bind(this)}
-                                        onReplacePhoto={this.onDrop.bind(this)} />
-                            }
-                        </Dropzone>
-                    </div>
-                </div>
-                <div className='row'>
-                    {
-                        this.state.photo !== null &&
-                        <>
-                            <div className='col col-sm-6'>
-                                <button
-                                    type="button"
-                                    className="btn btn-primary right-align"
-                                    disabled={this.state.submitting}
-                                    onClick={this.createGift.bind(this)}>
-                                    Create
-                                </button>
-                            </div>
-                            <div className='col col-sm-6'>
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    disabled={this.state.submitting}
-                                    onClick={this.clearImage.bind(this)}>
-                                    Cancel
-                                </button>
-                            </div>
-                        </>
-                    }
-                </div>
-                <div className='row'>
-                    <div className='col'>
-                        {this.state.showCropMessage && <p>Drag and scroll your image to crop.</p>}
-                        {this.state.submitting && <p>Uploading...</p>}
-                        {this.state.uploadFailed && <p className='red'>Upload failed.</p>}
-                    </div>
-                </div>
-            </div>
+                <Footer />
+            </>
         );
     }
 }
