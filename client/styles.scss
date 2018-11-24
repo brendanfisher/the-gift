@@ -28,6 +28,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 180px;
     margin: 9px;
     overflow: hidden;
+    cursor: move;
 }
 
 .previewed-image {
@@ -46,4 +47,14 @@ p {
 
 .right-align {
     float: right;
+}
+
+.red {
+    color: red;
+}
+
+.videoPlaceholder {
+    width: 640px;
+    height: 480px;
+    background-color: black;
 }

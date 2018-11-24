@@ -1,5 +1,3 @@
-import '../styles.scss';
-
 const WIDTH = 180;
 
 export default class ImageEditor extends React.Component {
@@ -34,6 +32,7 @@ export default class ImageEditor extends React.Component {
     }
 
     startDrag(e) {
+        if (this.props.disabled()) return;
         this.props.onInteract();
 
         e.persist();
@@ -53,6 +52,8 @@ export default class ImageEditor extends React.Component {
     }
 
     drag(e) {
+        if (this.props.disabled()) return;
+
         this.setState(function (state, props) {
             if (!state.dragging) {
                 return {};
@@ -65,6 +66,8 @@ export default class ImageEditor extends React.Component {
     }
 
     endDrag() {
+        if (this.props.disabled()) return;
+
         this.setState({
             lastMouseX: null,
             lastMouseY: null,
@@ -75,6 +78,7 @@ export default class ImageEditor extends React.Component {
     }
 
     zoom(e) {
+        if (this.props.disabled()) return;
         this.props.onInteract();
 
         e.persist();
