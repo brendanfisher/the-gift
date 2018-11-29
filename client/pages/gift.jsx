@@ -52,7 +52,7 @@ export default class Gift extends React.Component {
                         this.props.isOwner &&
                         <div className='row'>
                             <div className='col'>
-                                <p>Share this Gift with your loved ones using this URL: <Copy>thegift.com/gift/{this.props.id}</Copy></p>
+                                <p>Share this Gift with your loved ones using this URL: <Copy>{WEBSITE_NAME}/gift/{this.props.id}</Copy></p>
                             </div>
                         </div>
                     }
