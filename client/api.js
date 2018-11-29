@@ -1,0 +1,1 @@
+module.exports = USE_MOCK_API ? require('./mockApi') : require('./realApi');
