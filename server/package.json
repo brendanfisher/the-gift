@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "set USE_MOCK_FILESYSTEM=true&& node index.js",
     "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^17.8.1"
+    "fs": "0.0.1-security",
+    "hapi": "^17.8.1",
+    "shortid": "^2.2.14"
   }
 }

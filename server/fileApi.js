@@ -1,0 +1,1 @@
+module.exports = process.env.USE_MOCK_FILESYSTEM ? require('./mockFileApi') : require('./S3FileApi');
