@@ -36,13 +36,26 @@ async function uploadGift(id, owner, ip) {
         owner,
         createdAt: new Date(),
         createdBy: ip,
-        pageTitle: 'Happy Celebrations!',
-        videoFinished: false
+        pageTitle: 'Happy Celebrations!'
     });
+}
+
+async function getGift(id) {
+    return await Gifts.findById(id);
+}
+
+async function updateTitle(id, owner, newName) {
+    const returned = await Gifts.update(
+        { pageTitle: newName },
+        { where: { id, owner } }
+    );
+    return returned[0] > 0;
 }
 
 module.exports = {
     initialize,
     rateLimitExceeded,
-    uploadGift
+    uploadGift,
+    getGift,
+    updateTitle
 }

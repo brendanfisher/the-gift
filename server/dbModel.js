@@ -21,9 +21,5 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
     },
-    videoFinished: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
-    },
     updatedAt: Sequelize.DATE
 };

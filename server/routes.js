@@ -15,13 +15,12 @@ module.exports = function (server) {
 
                 const id = shortid.generate();
                 const owner = shortid.generate();
-                await file.saveImage(id, owner, request.payload.image);
-                await db.uploadGift(id, request.info.remoteAddress);
+                await file.saveImage(id, request.payload.image);
+                await db.uploadGift(id, owner, request.info.remoteAddress);
                 await file.createVideo(id);
 
-                return h.response(200);
+                return h.response();
             } catch (e) {
-                //TODO: rollback if anything fails
                 console.log(e);
                 return h.response('Server error').code(500);
             }
@@ -39,7 +38,23 @@ module.exports = function (server) {
         method: 'GET',
         path: '/gift/{id}',
         handler: async (request, h) => {
-            return {};
+            try {
+                if (!request.params.id)
+                    return h.response('Invalid input').code(400);
+                const gift = await db.getGift(request.params.id);
+                if (gift === null) return h.response('Gift not found').code(404);
+
+                const videoURL = await file.getVideoURL(request.params.id);
+
+                return h.response({
+                    videoURL,
+                    isOwner: gift.owner === request.query.owner,
+                    title: gift.pageTitle
+                });
+            } catch (e) {
+                console.log(e);
+                return h.response('Server error').code(500);
+            }
         }
     });
 
@@ -47,11 +62,17 @@ module.exports = function (server) {
         method: 'POST',
         path: '/update-title',
         handler: async (request, h) => {
-            return {};
-        },
-        options: {
-            payload: {
-                allow: 'text/json'
+            try {
+                const { id, owner, newName } = request.payload;
+                if (!id || !newName)
+                    return h.response('Invalid input').code(400);
+                const success = await db.updateTitle(id, owner, newName);
+                if (!success)
+                    return h.response('Gift/owner not found').code(404);
+                return h.response();
+            } catch (e) {
+                console.log(e);
+                return h.response('Server error').code(500);
             }
         }
     });
