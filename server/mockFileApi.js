@@ -12,10 +12,11 @@ async function getVideoURL(id) {
 }
 
 async function createVideo(id) {
-
+    //TODO: spin up video process
 }
 
 module.exports = {
     saveImage,
-    getVideoURL
+    getVideoURL,
+    createVideo
 };

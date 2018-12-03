@@ -1,5 +1,6 @@
 const Hapi = require('hapi');
 const addRoutes = require('./routes');
+const db = require('./db');
 
 const server = Hapi.server({
     host: 'localhost',
@@ -10,6 +11,7 @@ addRoutes(server);
 
 async function start() {
     try {
+        await db.initialize();
         await server.start();
     }
     catch (err) {
