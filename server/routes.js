@@ -19,7 +19,10 @@ module.exports = function (server) {
                 await db.uploadGift(id, owner, request.info.remoteAddress);
                 await file.createVideo(id);
 
-                return h.response();
+                return h.response({
+                    giftID: id,
+                    owner: owner
+                });
             } catch (e) {
                 console.log(e);
                 return h.response('Server error').code(500);

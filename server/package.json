@@ -4,7 +4,7 @@
   "description": "Web server for The Gift",
   "main": "index.js",
   "scripts": {
-    "dev": "set USE_MOCK_FILESYSTEM=true&& nodemon index.js",
+    "dev": "set USE_MOCK_FILESYSTEM=true&& concurrently --kill-others \"nodemon index.js\" \"http-server ../videos -p 9000\"",
     "start": "node index.js"
   },
   "author": "",
@@ -17,6 +17,8 @@
     "shortid": "^2.2.14"
   },
   "devDependencies": {
+    "concurrently": "^4.1.0",
+    "http-server": "^0.11.1",
     "nodemon": "^1.18.7"
   }
 }

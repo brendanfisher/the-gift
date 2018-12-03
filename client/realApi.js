@@ -1,38 +1,40 @@
-export async function submitFile(image) {
-    await timeout(1500);
+const axios = require('axios');
 
-    return {
-        success: true,
-        giftID: 'ABCD',
-        owner: '1234'
-    };
+export async function submitFile(image) {
+    try {
+        const formData = new FormData();
+        formData.append('image', image);
+        const response = await axios.post(`${API_LOCATION}/submit`, formData);
+        return Object.assign(response.data, { success: true });
+    } catch (e) {
+        console.log(e);
+        return { success: false };
+    }
 }
 
 export async function getGift(id, owner) {
-    if (id !== 'ABCD') return { success: false };
+    let ownerString = '';
+    if (owner) ownerString = `?owner=${owner}`;
 
-    return {
-        success: true,
-        videoURL: null,
-        isOwner: owner === '1234',
-        title: 'Happy Celebrations!'
+    try {
+        const response = await axios.get(`${API_LOCATION}/gift/${id}${ownerString}`);
+        return Object.assign(response.data, { success: true });
+    } catch (e) {
+        console.log(e);
+        return { success: false };
     }
 }
 
 export async function updateTitle(id, owner, newName) {
     if (newName.length === 0 || newName.length > 24) {
-        return {
-            success: false
-        };
+        return { success: false };
     }
 
-    await timeout(500);
-
-    return {
-        success: true
-    };
-}
-
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    try {
+        await axios.post(`${API_LOCATION}/update-title`, { id, owner, newName });
+        return { success: true };
+    } catch (e) {
+        console.log(e);
+        return { success: false };
+    }
 }

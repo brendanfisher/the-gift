@@ -4,7 +4,8 @@ const db = require('./db');
 
 const server = Hapi.server({
     host: 'localhost',
-    port: 8000
+    port: 8000,
+    routes: { cors: true }
 });
 
 addRoutes(server);
