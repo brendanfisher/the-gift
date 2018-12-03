@@ -55,12 +55,13 @@ export default class Index extends React.Component {
 
     async createGift() {
         if (this.state.photo === null) return;
+
         this.setState({
             submitting: true,
             showCropMessage: false,
             uploadFailed: false
         });
-
+        
         const response = await submitFile(this.state.photo.src);
         if (response.success) {
             Router.push(`/gift/${response.giftID}?owner=${response.owner}`);
@@ -75,6 +76,7 @@ export default class Index extends React.Component {
     render() {
         return (
             <>
+                <title>Send your loved one The Gift</title>
                 <div className='container'>
                     <div className='row'>
                         <div className='col'>

@@ -33,6 +33,7 @@ export default class Gift extends React.Component {
 
         return (
             <>
+                <title>You have received The Gift</title>
                 <div className='container'>
                     <div className='row'>
                         {this.props.isOwner ? <Edit onUpdate={this.updateTitle.bind(this)}>{this.props.title}</Edit> : <h1>{this.props.title}</h1>}
