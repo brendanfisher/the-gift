@@ -41,7 +41,7 @@ async function uploadGift(id, owner, ip) {
 }
 
 async function getGift(id) {
-    return await Gifts.findById(id);
+    return await Gifts.findByPk(id);
 }
 
 async function updateTitle(id, owner, newName) {
