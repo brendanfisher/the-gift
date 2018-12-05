@@ -5,10 +5,12 @@ export default class ImageEditor extends React.Component {
         super(props);
 
         const scale = this.boundScale(0, props);
+        const X = this.boundX(0, scale, props);
+        const Y = this.boundY(0, scale, props);
 
         this.state = {
-            imageX: this.boundX(0, scale, props),
-            imageY: this.boundY(0, scale, props),
+            imageX: X,
+            imageY: Y,
             dragging: false,
             lastMouseX: null,
             lastMouseY: null,
@@ -16,6 +18,12 @@ export default class ImageEditor extends React.Component {
             lastImageY: null,
             scale: scale
         };
+
+        this.props.passToParent({
+            editZoom: scale,
+            editX: X,
+            editY: Y
+        });
 
         this.dragBind = this.drag.bind(this);
         this.endDragBind = this.endDrag.bind(this);
@@ -58,9 +66,18 @@ export default class ImageEditor extends React.Component {
             if (!state.dragging) {
                 return {};
             }
+
+            const newX = this.boundX(state.lastImageX + e.screenX - state.lastMouseX, state.scale);
+            const newY = this.boundY(state.lastImageY + e.screenY - state.lastMouseY, state.scale);
+
+            this.props.passToParent({
+                editX: newX,
+                editY: newY
+            });
+
             return {
-                imageX: this.boundX(state.lastImageX + e.screenX - state.lastMouseX, state.scale),
-                imageY: this.boundY(state.lastImageY + e.screenY - state.lastMouseY, state.scale)
+                imageX: newX,
+                imageY: newY
             };
         });
     }
@@ -85,10 +102,20 @@ export default class ImageEditor extends React.Component {
 
         this.setState(function (state, props) {
             const newScale = this.boundScale(state.scale * (1 - e.deltaY / 500));
+            const newX = this.boundX(state.imageX, newScale);
+            const newY = this.boundY(state.imageY, newScale);
+
+            this.props.passToParent({
+                editZoom: newScale,
+                editX: newX,
+                editY: newY
+            });
+
             return {
                 scale: newScale,
-                imageX: this.boundX(state.imageX, newScale),
-                imageY: this.boundY(state.imageY, newScale)};
+                imageX: newX,
+                imageY: newY
+            };
         });
     }
 

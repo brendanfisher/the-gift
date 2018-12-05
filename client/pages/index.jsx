@@ -10,17 +10,24 @@ export default class Index extends React.Component {
         super(props);
         this.state = {
             photo: null,
+            photoData: null,
             width: null,
             height: null,
             showCropMessage: false,
             submitting: false,
-            uploadFailed: false
+            uploadFailed: false,
+            editX: null,
+            editY: null,
+            editZoom: null
         };
     }
 
     onDrop(files) {
         if (files.length === 1) {
-            this.setState({ photo: null });
+            this.setState({
+                photo: null,
+                photoData: files[0]
+            });
             const reader = new FileReader();
             reader.onloadend = () => {
                 const img = new Image();
@@ -39,14 +46,14 @@ export default class Index extends React.Component {
             photo: null,
             showCropMessage: false,
             uploadFailed: false
-        })
+        });
     }
 
     clearCropMessage() {
         this.setState({
             showCropMessage: false,
             uploadFailed: false
-        })
+        });
     }
 
     disabled() {
@@ -61,8 +68,12 @@ export default class Index extends React.Component {
             showCropMessage: false,
             uploadFailed: false
         });
-        
-        const response = await submitFile(this.state.photo.src);
+        let response = {};
+        try {
+            response = await submitFile(this.state.photoData);
+        } catch(e) {
+            console.log(e);
+        }
         if (response.success) {
             Router.push(`/gift/${response.giftID}?owner=${response.owner}`);
         } else {
@@ -99,7 +110,7 @@ export default class Index extends React.Component {
                                             photo={this.state.photo}
                                             disabled={this.disabled.bind(this)}
                                             onInteract={this.clearCropMessage.bind(this)}
-                                            onReplacePhoto={this.onDrop.bind(this)} />
+                                            passToParent={this.setState.bind(this)} />
                                 }
                             </Dropzone>
                         </div>
