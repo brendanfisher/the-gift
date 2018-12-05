@@ -2,11 +2,11 @@ const Sequelize = require('sequelize');
 
 module.exports = {
     id: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING.BINARY,
         primaryKey: true
     },
     owner: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING.BINARY,
         allowNull: false
     },
     createdAt: {

@@ -58,4 +58,4 @@ module.exports = {
     uploadGift,
     getGift,
     updateTitle
-}
+};
