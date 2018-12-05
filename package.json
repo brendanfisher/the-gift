@@ -1,0 +1,13 @@
+{
+  "name": "the-gift",
+  "version": "1.0.0",
+  "description": "Send your loved ones The Gift today",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently --kill-others \"npm run dev --prefix server\" \"npm run dev --prefix client\" \"http-server videos -p 9000\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  }
+}
