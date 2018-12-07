@@ -1,9 +1,9 @@
 const fs = require('fs');
-var path = require('path');
 
-async function saveImage(filename, image) {
-    const stream = fs.createWriteStream(`../images/${filename}${path.extname(image.hapi.filename)}`);
-    image.pipe(stream);
+async function saveImage(filename, image, ext) {
+    const stream = fs.createWriteStream(`../images/${filename}${ext}`);
+    //image.pipe(stream); //For when it's a stream
+    stream.write(image); //For when it's a buffer
 }
 
 async function getVideoURL(id) {

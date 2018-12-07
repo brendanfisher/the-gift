@@ -8,7 +8,7 @@ export async function submitFile(image) {
     };
 }
 
-export async function getGift(id, owner) {
+export async function getGift(id, owner, left, top, width) {
     if (id !== 'ABCD') return { success: false };
 
     return {

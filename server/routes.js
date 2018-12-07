@@ -1,21 +1,27 @@
 const file = require('./fileApi');
 const shortid = require('shortid');
 const db = require('./db');
+var path = require('path');
 
 module.exports = function (server) {
     server.route({
         method: 'POST',
         path: '/submit',
         handler: async (request, h) => {
-            try {
-                if (!request.payload.image)
+            try { 
+                if (!request.payload.image || !request.payload.left || !request.payload.top || !request.payload.width)
                     return h.response('Invalid input').code(400);
                 if (await db.rateLimitExceeded(request.info.remoteAddress))
                     return h.response('Rate limit exceeded').code(429);
 
                 const id = shortid.generate();
                 const owner = shortid.generate();
-                await file.saveImage(id, request.payload.image);
+                const { image, left, top, width } = request.payload;
+                await file.saveImage(
+                    id,
+                    await file.cropImage(image, parseInt(left), parseInt(top), parseInt(width)),
+                    path.extname(image.hapi.filename)
+                );
                 await db.uploadGift(id, owner, request.info.remoteAddress);
                 await file.createVideo(id);
 

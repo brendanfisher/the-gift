@@ -5,6 +5,8 @@ import Router from 'next/router';
 import '../styles.scss';
 import Footer from '../components/footer';
 
+const WIDTH = 180;
+
 export default class Index extends React.Component {
     constructor(props) {
         super(props);
@@ -60,6 +62,17 @@ export default class Index extends React.Component {
         return this.state.submitting;
     }
 
+    getCropDimensions() {
+        const width = this.state.editZoom * this.state.photo.width;
+        const height = this.state.editZoom * this.state.photo.height;
+
+        const left = (-this.state.editX + (width - this.state.photo.width) / 2) / this.state.editZoom;
+        const top = (-this.state.editY + (height - this.state.photo.height) / 2) / this.state.editZoom;
+        const dim = WIDTH / this.state.editZoom;
+
+        return [left, top, dim];
+    }
+
     async createGift() {
         if (this.state.photo === null) return;
 
@@ -68,9 +81,12 @@ export default class Index extends React.Component {
             showCropMessage: false,
             uploadFailed: false
         });
+        
+        const [left, top, width] = this.getCropDimensions();
+
         let response = {};
         try {
-            response = await submitFile(this.state.photoData);
+            response = await submitFile(this.state.photoData, left, top, width);
         } catch(e) {
             console.log(e);
         }

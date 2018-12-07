@@ -1,9 +1,12 @@
 const axios = require('axios');
 
-export async function submitFile(image) {
+export async function submitFile(image, left, top, width) {
     try {
         const formData = new FormData();
         formData.append('image', image);
+        formData.append('left', left);
+        formData.append('top', top);
+        formData.append('width', width);
         const response = await axios.post(`${API_LOCATION}/submit`, formData);
         return Object.assign(response.data, { success: true });
     } catch (e) {
