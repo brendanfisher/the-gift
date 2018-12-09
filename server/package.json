@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.373.0",
     "fs": "0.0.1-security",
     "hapi": "^17.8.1",
     "jimp": "^0.6.0",
