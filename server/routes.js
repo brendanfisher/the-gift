@@ -73,7 +73,7 @@ module.exports = function (server) {
         handler: async (request, h) => {
             try {
                 const { id, owner, newName } = request.payload;
-                if (!id || !newName)
+                if (!id || !newName || newName.length === 0 || newName.length > 24)
                     return h.response('Invalid input').code(400);
                 const success = await db.updateTitle(id, owner, newName);
                 if (!success)
