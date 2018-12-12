@@ -145,6 +145,7 @@ export default class ImageEditor extends React.Component {
                 onMouseDown={this.startDrag.bind(this)}
                 onWheel={this.zoom.bind(this)}
                 className='image-preview'>
+                <img src="../static/shadow.svg" className="shadow" draggable={false}/>
                 <img
                     className='previewed-image'
                     style={{
