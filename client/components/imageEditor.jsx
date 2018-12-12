@@ -101,7 +101,7 @@ export default class ImageEditor extends React.Component {
         e.persist();
 
         this.setState(function (state, props) {
-            const newScale = this.boundScale(state.scale * (1 - e.deltaY / 500));
+            const newScale = this.boundScale(state.scale * (1 - e.deltaY / 800));
             const newX = this.boundX(state.imageX, newScale);
             const newY = this.boundY(state.imageY, newScale);
 
