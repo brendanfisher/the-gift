@@ -1,5 +1,7 @@
 const S3 = require('aws-sdk/clients/s3');
+const SQS = require('aws-sdk/clients/sqs');
 const s3 = new S3();
+const sqs = new SQS({ region: 'us-east-2' });
 
 async function saveImage(filename, image, ext) {
     console.log('saving image');
@@ -28,7 +30,12 @@ async function getVideoURL(id) {
 }
 
 async function createVideo(id) {
-    //TODO: spin up video process
+    console.log('sending request to create video');
+    await sqs.sendMessage({
+        QueueUrl: process.env.RENDERING_QUEUE_URL,
+        MessageBody: id,
+        DelaySeconds: 0
+    }).promise();
 }
 
 module.exports = {
