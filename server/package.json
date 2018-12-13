@@ -4,7 +4,7 @@
   "description": "Web server for The Gift",
   "main": "index.js",
   "scripts": {
-    "dev": "set USE_MOCK_FILESYSTEM=true nodemon index.js",
+    "dev": "set USE_MOCK_FILESYSTEM=true && nodemon index.js",
     "start": "NODE_ENV=production node index.js"
   },
   "author": "",

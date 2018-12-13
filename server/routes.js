@@ -9,7 +9,9 @@ module.exports = function (server) {
         path: '/submit',
         handler: async (request, h) => {
             try {
-                const clientIP = request.headers['x-forwarded-for'].split(', ')[0];
+                const clientIP = process.env.NODE_ENV === 'production'
+                    ? request.headers['x-forwarded-for'].split(', ')[0]
+                    : request.info.remoteAddress;
                 if (!request.payload.image || !request.payload.left || !request.payload.top || !request.payload.width)
                     return h.response('Invalid input').code(400);
                 if (await db.rateLimitExceeded(clientIP))
