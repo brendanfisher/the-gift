@@ -5,7 +5,6 @@
 #include <cuda_runtime.h>
 #include <thrust/device_vector.h>
 #include <thrust/copy.h>
-#include "utils.h"
 
 const int VID_WIDTH=1920, VID_HEIGHT=1080, FACE_WIDTH=256, FACE_HEIGHT=384;
 const int BLOCK_SIZE=256;
