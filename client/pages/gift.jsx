@@ -61,7 +61,7 @@ export default class Gift extends React.Component {
                                     <source src={this.state.videoURL} />
                                 </video> :
                                 <div className='videoPlaceholder'>
-                                    <h5>Your Gift is still processing. Please come back later.</h5>
+                                    <h5>Your Gift is still processing. Please wait.</h5>
                                 </div>
                         }
                     </div>
