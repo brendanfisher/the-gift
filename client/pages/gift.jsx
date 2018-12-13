@@ -24,7 +24,7 @@ export default class Gift extends React.Component {
     }
 
     componentDidMount() {
-        this.tryFetchVideo(10000);
+        this.tryFetchVideo();
     }
 
     videoLoaded(url) {
@@ -35,7 +35,7 @@ export default class Gift extends React.Component {
         return response.success;
     }
     
-    async tryFetchVideo(timeout) {
+    async tryFetchVideo() {
         try {
             const response = await axios.get(this.props.videoURL, { responseType: 'blob' });
             const URL = window.URL || window.webkitURL;
@@ -48,7 +48,7 @@ export default class Gift extends React.Component {
             this.setState({
                 loading: false
             });
-            setTimeout((() => this.tryFetchVideo(timeout + 1000)).bind(this), timeout);
+            setTimeout(this.tryFetchVideo.bind(this), 10000);
         }
     }
 
