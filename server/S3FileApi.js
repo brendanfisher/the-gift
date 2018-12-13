@@ -13,7 +13,20 @@ async function saveImage(filename, image, ext) {
 }
 
 async function getVideoURL(id) {
-    return `${process.env.CDN_URL}/${id}.mp4`;
+    console.log('checking for video');
+    try {
+        // Check if the file exists
+        await s3.headObject({
+            Bucket: process.env.S3_BUCKET,
+            Key: `videos/${id}.mp4`
+        }).promise();
+        // File exists, so return the url from CloudFront
+        return `${process.env.CDN_URL}/${id}.mp4`;
+    } catch (e) {
+        // File doesn't exist, which throws an error
+        if (e.code === 'NotFound') return null;
+        throw e;
+    }
 }
 
 async function createVideo(id) {
