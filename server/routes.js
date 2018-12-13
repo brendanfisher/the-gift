@@ -9,7 +9,9 @@ module.exports = function (server) {
         path: '/submit',
         handler: async (request, h) => {
             try {
-                const clientIP = request.headers['x-forwarded-for'].split(', ')[0];
+                const clientIP = process.env.NODE_ENV === 'production'
+                    ? request.headers['x-forwarded-for'].split(', ')[0]
+                    : request.info.remoteAddress;
                 if (!request.payload.image || !request.payload.left || !request.payload.top || !request.payload.width)
                     return h.response('Invalid input').code(400);
                 if (await db.rateLimitExceeded(clientIP))
@@ -60,6 +62,26 @@ module.exports = function (server) {
                     videoURL,
                     isOwner: gift.owner === request.query.owner,
                     title: gift.pageTitle
+                });
+            } catch (e) {
+                console.log(e);
+                return h.response('Server error').code(500);
+            }
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/video/{id}',
+        handler: async (request, h) => {
+            try {
+                if (!request.params.id)
+                    return h.response('Invalid input').code(400);
+
+                const videoURL = await file.getVideoURL(request.params.id);
+
+                return h.response({
+                    videoURL
                 });
             } catch (e) {
                 console.log(e);

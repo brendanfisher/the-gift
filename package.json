@@ -4,10 +4,9 @@
   "description": "Send your loved ones The Gift today",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently --kill-others \"npm run dev --prefix server\" \"npm run dev --prefix client\" \"http-server videos -p 9000\""
+    "dev": "concurrently --kill-others \"npm run dev --prefix server\" \"npm run dev --prefix client\" \"http-server videos --cors -p 9000\""
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
