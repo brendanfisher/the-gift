@@ -13,7 +13,7 @@ export async function getGift(id, owner, left, top, width) {
 
     return {
         success: true,
-        videoURL: null,
+        videoURL: 'http://localhost:9000/ABCD.mp4',
         isOwner: owner === '1234',
         title: 'Happy Celebrations!'
     }

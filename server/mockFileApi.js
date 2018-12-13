@@ -7,7 +7,6 @@ async function saveImage(filename, image, ext) {
 }
 
 async function getVideoURL(id) {
-    if (!fs.existsSync(`../videos/${id}.mp4`)) return null;
     return `http://localhost:9000/${id}.mp4`;
 }
 
