@@ -1,5 +1,5 @@
 import React from "react";
-import { getGift, updateTitle } from '../api';
+import { getGift, updateTitle, checkForVideo } from '../api';
 import Router from 'next/router';
 import Error from './_error';
 import Copy from '../components/copiableText';
@@ -17,7 +17,23 @@ export default class Gift extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            editingTitle: false
+            editingTitle: false,
+            videoURL: props.videoURL
+        };
+    }
+
+    componentDidMount() {
+        if (!this.state.videoURL) {
+            this.checkForVideo();
+        }
+    }
+
+    async checkForVideo() {
+        const response = await checkForVideo(this.props.id);
+        if (response.success && response.videoURL) {
+            this.setState({ videoURL: response.videoURL });
+        } else {
+            setTimeout(this.checkForVideo.bind(this), 6000);
         }
     }
 
@@ -40,9 +56,9 @@ export default class Gift extends React.Component {
                     </div>
                     <div className='row'>
                         {
-                            this.props.videoURL ?
+                            this.state.videoURL ?
                                 <video width='640' height='360' controls>
-                                    <source src={this.props.videoURL} />
+                                    <source src={this.state.videoURL} />
                                 </video> :
                                 <div className='videoPlaceholder'>
                                     <h5>Your Gift is still processing. Please come back later.</h5>

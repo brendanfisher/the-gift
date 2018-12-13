@@ -28,6 +28,16 @@ export async function getGift(id, owner) {
     }
 }
 
+export async function checkForVideo(id) {
+    try {
+        const response = await axios.get(`${API_LOCATION}/video/${id}`);
+        return Object.assign(response.data, { success: true });
+    } catch (e) {
+        console.log(e);
+        return { success: false };
+    }
+}
+
 export async function updateTitle(id, owner, newName) {
     if (newName.length === 0 || newName.length > 24) {
         return { success: false };

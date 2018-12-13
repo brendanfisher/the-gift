@@ -1,4 +1,4 @@
-export async function submitFile(image) {
+export async function submitFile(image, left, top, width) {
     await timeout(1500);
 
     return {
@@ -8,7 +8,7 @@ export async function submitFile(image) {
     };
 }
 
-export async function getGift(id, owner, left, top, width) {
+export async function getGift(id, owner) {
     if (id !== 'ABCD') return { success: false };
 
     return {
@@ -16,7 +16,11 @@ export async function getGift(id, owner, left, top, width) {
         videoURL: null,
         isOwner: owner === '1234',
         title: 'Happy Celebrations!'
-    }
+    };
+}
+
+export async function checkForVideo(id) {
+    return { success: false };
 }
 
 export async function updateTitle(id, owner, newName) {

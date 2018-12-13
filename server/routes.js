@@ -71,6 +71,26 @@ module.exports = function (server) {
     });
 
     server.route({
+        method: 'GET',
+        path: '/video/{id}',
+        handler: async (request, h) => {
+            try {
+                if (!request.params.id)
+                    return h.response('Invalid input').code(400);
+
+                const videoURL = await file.getVideoURL(request.params.id);
+
+                return h.response({
+                    videoURL
+                });
+            } catch (e) {
+                console.log(e);
+                return h.response('Server error').code(500);
+            }
+        }
+    });
+
+    server.route({
         method: 'POST',
         path: '/update-title',
         handler: async (request, h) => {
