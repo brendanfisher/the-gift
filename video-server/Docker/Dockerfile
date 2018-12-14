@@ -99,8 +99,8 @@ RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip \
 RUN tar cvzf opencv-$OPENCV_VERSION.tar.gz --directory=$OPENCV_INSTALL_PATH .
 
 RUN pip install awscli
-RUN aws configure set aws_access_key_id AKIAJJTPOEAQXS7OHQPA
-RUN aws configure set aws_secret_access_key 3rvF6+O55gXYloigy8uBWw83BGLf2wQJCj+O5GjU
+RUN aws configure set aws_access_key_id ID_PLACEHOLDER
+RUN aws configure set aws_secret_access_key SECRET_PLACEHOLDER
 
 RUN mkdir /app
 COPY . /app
