@@ -16,10 +16,11 @@ else:
 		c.close()
 		vidName=data[0]	# Change to wherever video name is stored
 		imgName=data[1]	# Change to wherever image name is stored
-		subprocess.call(["aws", "s3", "cp", "s3://the-gift-files/videos/"+vidName, "./video.mp4"])
-		subprocess.call(["aws", "s3", "cp", "s3://the-gift-files/images/"+imgName, "./image.jpg"])
+		# Read and write from S3 bucket, these use awscli, there's probably a better way
+		#subprocess.call(["aws", "s3", "cp", "s3://the-gift-files/videos/"+vidName, "./video.mp4"])
+		#subprocess.call(["aws", "s3", "cp", "s3://the-gift-files/images/"+imgName, "./image.jpg"])
 		subprocess.call(["Process", "video.mp4", "motion-tracking.json", "image.jpg", "output.mp4"])
-		subprocess.call(["aws", "s3", "cp", "./output.mp4", "s3://the-gift-files/videos/"+imgName[0:len(imgName)-4]])
+		#subprocess.call(["aws", "s3", "cp", "./output.mp4", "s3://the-gift-files/videos/"+imgName[0:len(imgName)-4]])
 		subprocess.call(["rm", "video.mp4"])
 		subprocess.call(["rm", "image.jpg"])
 		subprocess.call(["rm", "output.mp4"])
