@@ -4,7 +4,7 @@
 ##
 ## 20 december 2017
 
-FROM nvidia/cuda:8.0-devel
+FROM nvidia/cuda:10.0-devel
 
 ARG https_proxy
 ARG http_proxy
@@ -13,7 +13,7 @@ ARG http_proxy
 ###  OPENCV INSTALL  ###
 ########################
 
-ARG OPENCV_VERSION=3.4.0
+ARG OPENCV_VERSION=3.4.4
 ARG OPENCV_INSTALL_PATH=/opencv/usr
 
 RUN apt-get update && \
@@ -32,7 +32,6 @@ RUN apt-get update && \
         libjpeg-dev \
         libpng-dev \
         libtiff-dev \
-        libjasper-dev \
         libavformat-dev \
         libpq-dev \
 
@@ -41,8 +40,6 @@ RUN apt-get update && \
 	libtiff5-dev \
 	zlib1g-dev \
 	libjpeg-dev \
-	libpng12-dev \
-	libjasper-dev \
 	libavcodec-dev \
 	libavformat-dev \
 	libavutil-dev \
@@ -79,37 +76,13 @@ RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip \
     && mkdir /opencv-$OPENCV_VERSION/cmake_binary \
     && cd /opencv-$OPENCV_VERSION/cmake_binary \
     && cmake -DBUILD_TIFF=ON \
-       -DBUILD_opencv_java=OFF \
-       -DBUILD_SHARED_LIBS=OFF \
-       -DWITH_CUDA=ON \
-       # -DENABLE_FAST_MATH=1 \
-       # -DCUDA_FAST_MATH=1 \
-       # -DWITH_CUBLAS=1 \
-       -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-8.0 \
        ##
        ## Should compile for most card
        ## 3.5 binary code for devices with compute capability 3.5 and 3.7,
        ## 5.0 binary code for devices with compute capability 5.0 and 5.2,
        ## 6.0 binary code for devices with compute capability 6.0 and 6.1,
-       -DCUDA_ARCH_BIN='3.0 3.5 5.0 6.0 6.2' \
-       -DCUDA_ARCH_PTX="" \
        ##
        ## AVX in dispatch because not all machines have it
-       -DCPU_DISPATCH=AVX,AVX2 \
-       -DENABLE_PRECOMPILED_HEADERS=OFF \
-       -DWITH_OPENGL=OFF \
-       -DWITH_OPENCL=OFF \
-       -DWITH_QT=OFF \
-       -DWITH_IPP=ON \
-       -DWITH_TBB=ON \
-       -DFORCE_VTK=ON \
-       -DWITH_EIGEN=ON \
-       -DWITH_V4L=ON \
-       -DWITH_XINE=ON \
-       -DWITH_GDAL=ON \
-       -DWITH_1394=OFF \
-       -DWITH_FFMPEG=OFF \
-       -DBUILD_PROTOBUF=OFF \
        -DBUILD_TESTS=OFF \
        -DBUILD_PERF_TESTS=OFF \
        -DCMAKE_BUILD_TYPE=RELEASE \
@@ -126,11 +99,6 @@ RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip \
 ## Compress the openCV files so you can extract them from the docker easily 
 RUN tar cvzf opencv-$OPENCV_VERSION.tar.gz --directory=$OPENCV_INSTALL_PATH .
 
-RUN mkdir /app
 COPY . /app
 WORKDIR /app
-RUN cp --copy-contents -r /opencv/usr/lib /usr/local
-RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
-ENV PORT=$(PORT)
-
-CMD ["python", "server.py", $PORT]
+ENV LD_LIBRARY_PATH="/usr/local/lib:/usr/local/cuda-10.0/lib64:/opencv/usr/lib"
